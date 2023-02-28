@@ -1,5 +1,29 @@
-set autochdir
-set number
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => General settings
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set mouse=a                 " Enable mouse
+set tabstop=2               " 
+set shiftwidth=2            " 
+set expandtab
+set listchars=tab:\¦\       " Tab charactor 
+set list
+set foldmethod=syntax       " 
+set foldnestmax=1
+set foldlevelstart=0        "  
+set number                  " Show line number
+set ignorecase              " Enable case-sensitive 
+
+" Disable backup
+set nobackup
+set nowb
+set noswapfile
+
+" Optimize 
+set synmaxcol=200
+set lazyredraw
+au! BufNewFile,BufRead *.json set foldmethod=indent " Change foldmethod for specific filetype
+
+syntax on
 call plug#begin("~/.vim/plugged")
   " Plugin Section
   " Theme
@@ -25,7 +49,7 @@ endif
 syntax enable
 "Theme
 colorscheme catppuccin-macchiato
-let g:airline_theme = 'simple'
+let g:airline_theme = 'catppuccin-macchiato'
 "--------------------
 "Files Explorer Config
 let g:NERDTreeShowHidden = 1
@@ -76,7 +100,7 @@ tnoremap <Esc> <C-\><C-n>
 au BufEnter * if &buftype == 'terminal' | :startinsert | endif
 " open terminal on ctrl+n
 function! OpenTerminal()
-  split term://zsh
+  split term://powershell
   resize 10
 endfunction
 nnoremap <c-n> :call OpenTerminal()<CR>
@@ -99,9 +123,15 @@ let g:fzf_action = {
   \ 'ctrl-v': 'vsplit'
   \}
 let $FZF_DEFAULT_COMMAND = 'ag -g ""'
-"bar title 
-let g:airline#extensions#tabline#enabled = 1
-"let g:airline_statusline_ontop=1
-let g:airline#extensions#tabline#left_sep = ' '
-let g:airline#extensions#tabline#left_alt_sep = '|'
-let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
+"Vim ariline
+let g:airline_powerline_fonts = 1                       " Enable font for status bar
+
+let g:airline#extensions#tabline#enabled = 1            " Enable Tab bar
+let g:airline#extensions#tabline#left_sep = ' '         " Enable Tab seperator 
+let g:airline#extensions#tabline#left_alt_sep = '|'     " Enable Tab seperator
+let g:airline#extensions#tabline#formatter = 'default'
+let g:airline#extensions#tabline#fnamemod = ':t'        " Set Tab name as file name
+
+let g:airline#extensions#whitespace#enabled = 0         " Remove warning whitespace"
+
+let g:airline_section_error=''
