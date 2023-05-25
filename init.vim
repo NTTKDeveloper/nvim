@@ -12,8 +12,14 @@ set expandtab
 " Tab / Shift Tab to navigate between tabs
 nnoremap <Tab> :tabnext<CR>
 nnoremap <S-Tab> :tabprevious<CR>
-" Open Terminal 
-nnoremap <C-N> :botright split term://zsh<CR>
+
+" Open Terminal  (linux/pwershell) not support bash 
+if has('win32')
+    nnoremap <C-N> :botright split term://powershell<CR>
+else
+    nnoremap <C-N> :botright split term://zsh<CR>
+endif
+
 tnoremap <Esc> <C-\><C-n>
 
 " CoC settings
