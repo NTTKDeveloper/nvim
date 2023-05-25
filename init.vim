@@ -1,3 +1,4 @@
+set mouse=a
 set encoding=UTF-8
 set number
 syntax on
@@ -11,6 +12,9 @@ set expandtab
 " Tab / Shift Tab to navigate between tabs
 nnoremap <Tab> :tabnext<CR>
 nnoremap <S-Tab> :tabprevious<CR>
+" Open Terminal 
+nnoremap <C-N> :botright split term://zsh<CR>
+tnoremap <Esc> <C-\><C-n>
 
 " CoC settings
 set nobackup
