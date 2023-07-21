@@ -3,7 +3,7 @@
 Ngôn ngữ lập trình hỗ trợ:
 
 Nodejs (Master)
-Java
-C# (Chưa có)
+C# (Support Unity engines)
+Java, HTML,CSS
 Link tham khảo:
 https://linu.us/neovim-setup-for-php-and-nodejs-development
