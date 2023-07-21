@@ -75,9 +75,17 @@ Plug 'https://github.com/neoclide/coc.nvim'
 Plug 'othree/html5.vim'
 Plug 'pangloss/vim-javascript'
 Plug 'evanleck/vim-svelte', {'branch': 'main'}
+Plug 'OmniSharp/omnisharp-vim'
+
+Plug 'lewis6991/gitsigns.nvim' " OPTIONAL: for git status
+Plug 'nvim-tree/nvim-web-devicons' " OPTIONAL: for file icons
+Plug 'romgrk/barbar.nvim'
+
 call plug#end()
 
 " set the colorsheme
 " list: https://github.com/rafi/awesome-vim-colorschemes
 colorscheme minimalist
 
+"Set default path node.js 
+let g:coc_node_path = '~/.nvm/versions/node/v18.16.1/bin/node'

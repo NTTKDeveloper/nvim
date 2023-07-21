@@ -1,14 +1,41 @@
 {
     "languageserver": {
+        //C#
+        "csharp-ls": {
+          "command": "csharp-ls",
+          "filetypes": ["cs"],
+          "rootPatterns": ["*.csproj", ".vim/", ".git/", ".hg/"]
+        },
+        //C++
         "ccls": {
             "command": "ccls",
-            "filetypes": ["c", "cc", "cpp", "c++", "objc", "objcpp"],
-            "rootPatterns": [".ccls", "compile_commands.json", ".git/", ".hg/"],
+            "filetypes": ["c", "cpp", "cuda", "objc", "objcpp"],
+            "rootPatterns": [".ccls", "compile_commands.json"],
             "initializationOptions": {
                 "cache": {
-                  "directory": "/tmp/ccls"
+                    "directory": ".ccls-cache",
+                    "format": "binary"
+                },
+                "client": {
+                    "snippetSupport": true
+                },
+                "index": {
+                    "onChange": true
+                },
+                "highlight": {
+                    "lsRanges": true
                 }
-          }
+            }
+        },
+        "cmake": {
+            "command": "cmake-language-server",
+            "filetypes": ["cmake"],
+            "rootPatterns": [
+                "build/"
+            ],
+            "initializationOptions": {
+                "buildDirectory": "build"
+            }
         }
     }
 }
