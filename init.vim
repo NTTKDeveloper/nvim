@@ -82,12 +82,39 @@ Plug 'nvim-tree/nvim-web-devicons' " OPTIONAL: for file icons
 Plug 'romgrk/barbar.nvim'
 "Autopair 
 Plug 'windwp/nvim-autopairs'
+"Auto Comment 
+Plug 'KarimElghamry/vim-auto-comment'
 
 call plug#end()
 
 " set the colorsheme
 " list: https://github.com/rafi/awesome-vim-colorschemes
 colorscheme minimalist
+
+"Auto Comment Setting 
+let g:default_inline_comment = '#'
+
+let g:inline_comment_dict = {
+		\'//': ["js", "ts", "cpp", "c", "dart", "cs"],
+		\'#': ['py', 'sh'],
+		\'"': ['vim'],
+		\}
+
+let g:default_block_comment = '/*'
+
+let g:block_comment_dict = {
+		\'/*': ["js", "ts", "cpp", "c", "dart"],
+		\'"""': ['py'],
+		\}
+
+
+" Inline comment mapping
+vnoremap <silent><C-_> :AutoInlineComment<CR>
+nnoremap <silent><C-_> :AutoInlineComment<CR>
+
+" Block comment mapping
+vnoremap <silent><C-S-a> :AutoBlockComment<CR>
+nnoremap <silent><C-S-a> :AutoBlockComment<CR>
 
 "Set default path node.js 
 let g:coc_node_path = '~/.nvm/versions/node/v18.16.1/bin/node'
@@ -147,5 +174,43 @@ nnoremap <silent> <Space>bw <Cmd>BufferOrderByWindowNumber<CR>
 "
 " Autopair Setting
 lua << EOF 
-require("nvim-autopairs").setup {}
+local remap = vim.api.nvim_set_keymap
+local npairs = require('nvim-autopairs')
+
+npairs.setup({ map_bs = false, map_cr = false })
+
+vim.g.coq_settings = { keymap = { recommended = false } }
+
+-- these mappings are coq recommended mappings unrelated to nvim-autopairs
+remap('i', '<esc>', [[pumvisible() ? "<c-e><esc>" : "<esc>"]], { expr = true, noremap = true })
+remap('i', '<c-c>', [[pumvisible() ? "<c-e><c-c>" : "<c-c>"]], { expr = true, noremap = true })
+remap('i', '<tab>', [[pumvisible() ? "<c-n>" : "<tab>"]], { expr = true, noremap = true })
+remap('i', '<s-tab>', [[pumvisible() ? "<c-p>" : "<bs>"]], { expr = true, noremap = true })
+
+-- skip it, if you use another global object
+_G.MUtils= {}
+
+MUtils.CR = function()
+  if vim.fn.pumvisible() ~= 0 then
+    if vim.fn.complete_info({ 'selected' }).selected ~= -1 then
+      return npairs.esc('<c-y>')
+    else
+      return npairs.esc('<c-e>') .. npairs.autopairs_cr()
+    end
+  else
+    return npairs.autopairs_cr()
+  end
+end
+remap('i', '<cr>', 'v:lua.MUtils.CR()', { expr = true, noremap = true })
+
+MUtils.BS = function()
+  if vim.fn.pumvisible() ~= 0 and vim.fn.complete_info({ 'mode' }).mode == 'eval' then
+    return npairs.esc('<c-e>') .. npairs.autopairs_bs()
+  else
+    return npairs.autopairs_bs()
+  end
+end
+remap('i', '<bs>', 'v:lua.MUtils.BS()', { expr = true, noremap = true })
 EOF
+
+
